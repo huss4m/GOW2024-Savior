@@ -505,7 +505,7 @@ createWinScreen() {
     advancedTexture.addControl(this.winScreen);
 
     const youWonText = new TextBlock();
-    youWonText.text = "You Won";
+    youWonText.text = "Vous avez gagné!";
     youWonText.color = "white";
     youWonText.fontSize = 32;
     youWonText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;

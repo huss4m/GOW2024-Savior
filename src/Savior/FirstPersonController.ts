@@ -610,7 +610,7 @@ this.scene.onDataLoadedObservable.addOnce(() => {
                  if (!pressedKeys['KeyW'] && !pressedKeys['KeyA'] && !pressedKeys['KeyS'] && !pressedKeys['KeyD']) {
                      this.isMoving = false;
                  }
-             }
+             }  
 
              if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
                  
