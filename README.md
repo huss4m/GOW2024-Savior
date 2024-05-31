@@ -164,3 +164,21 @@ http://localhost:8080
 ```
 
 
+## Crédits
+
+- **Armes FPS & Son de Minigun & LMG** :
+  -  [3DMaesen (bumstrum)](https://sketchfab.com/bumstrum), sous licence Creative Commons Attribution 4.0 (http://creativecommons.org/licenses/by/4.0/).
+  
+- **Torche olympique** :
+  - [Nortenko Dmytro](https://skfb.ly/o7rEu) sous licence Creative Commons Attribution 4.0 (http://creativecommons.org/licenses/by/4.0/).
+ 
+ - **Médaille olympique** :
+  - [Alberto Luviano](https://skfb.ly/ooVJF) sous licence Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+ - **Musique**:
+  - [FesliyanStudios](https://www.FesliyanStudios.com) 
+
+
+ 
+
+
