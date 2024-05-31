@@ -625,7 +625,8 @@ this.scene.onDataLoadedObservable.addOnce(() => {
      window.addEventListener('keydown', (event) => {
       
 
-         if (event.code === 'Space' && !this.isJumping) {              
+         if (event.code === 'Space' && !this.isJumping) {         
+                event.preventDefault();     
                  this.jump();
                  this.isJumping = true;
          }
