@@ -1,3 +1,4 @@
+
 # Projet Games on Web 2024: Savior
 Jeu de type First Person Shooter sur le thème "Olympic Edition" pour la compétition Games on Web 2024.
 
@@ -78,13 +79,13 @@ Ces artéfacts apparaissent pendant une durée limitée dans le stade, il faut d
 ## Autres ressources
 
 - **Caisse de munitions**:
-![Ammo](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/ammo.png)
   - Vous donne quelques munitions.
+    ![Ammo](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/ammo.png)
     
 
 - **Kit de premiers-soins**:
-![medkit](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/medkit.png)
   - Vous rend tous vos points de vie.
+    ![medkit](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/medkit.png)
 
 Ceux-ci ne disparaissent pas, vous pouvez donc choisir, par exemple, de ne pas prendre un kit de premiers-soins avant d'être gravement blessé.
 
