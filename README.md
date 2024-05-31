@@ -46,16 +46,16 @@ Le stade olympique est attaqué par une horde de mutants, votre mission est de r
 ## Types d'ennemis
 
 - **Mutant**: Attaque à dégâts moyens, vitesse moyenne, apparaît dès la première vague, résistance faible. 
-- ![Mutant](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Mutant.png)
+ ![Mutant](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Mutant.png)
 
 - **Warrok**: Lourds dégâts, vitesse faible, apparaît à partir de la 2ème vague, résistance moyenne.
-- ![Warrok](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Warrok.png)
+ ![Warrok](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Warrok.png)
   
 - **Zombie**: Lourds dégâts et inflige "Blessure mortelle" à chaque attaque: vous perdez alors 2 points de vie par seconde pendant 5 secondes, vitesse moyenne, apparaît à partir de la 4ème vague, grande résistance.
-- -![Zombie](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Zombie.png)
+ ![Zombie](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Zombie.png)
   
 - **Boss final**: Vitesse très faible mais très lourds dégâts, très résistant, possède une attaque à distance "Onde de choc" qui vous inflige de lourds dégâts et vous ralentit de 50% pendant 6 secondes.
-- ![Boss](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Boss.png)
+ ![Boss](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/Boss.png)
 
 ## But du jeu
 
