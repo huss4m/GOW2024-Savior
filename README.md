@@ -78,12 +78,12 @@ Ces artéfacts apparaissent pendant une durée limitée dans le stade, il faut d
 ## Autres ressources
 
 - **Caisse de munitions**:
-  ![Ammo](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/ammo.png)
+![Ammo](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/ammo.png)
   - Vous donne quelques munitions.
     
 
 - **Kit de premiers-soins**:
-  ![medkit](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/medkit.png)
+![medkit](https://raw.githubusercontent.com/huss4m/GOW2024-Savior/main/medkit.png)
   - Vous rend tous vos points de vie.
 
 Ceux-ci ne disparaissent pas, vous pouvez donc choisir, par exemple, de ne pas prendre un kit de premiers-soins avant d'être gravement blessé.
