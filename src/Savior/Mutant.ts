@@ -1,5 +1,6 @@
-import { AnimationGroup, GizmoManager, PhysicsImpostor, Scene, SceneLoader, Sound, Tags, Vector3, TransformNode, MeshBuilder, StandardMaterial, Color3 } from "@babylonjs/core";
+import { AnimationGroup, GizmoManager, PhysicsImpostor, Scene, SceneLoader, Sound, Tags, Vector3, TransformNode, MeshBuilder, StandardMaterial, Color3, AbstractMesh } from "@babylonjs/core";
 import { Enemy } from "./Enemy";
+import { Level } from "./Level";
 
 
 export class Mutant extends Enemy {
@@ -8,8 +9,8 @@ export class Mutant extends Enemy {
     
 
 
-    constructor(scene: Scene) {
-        super(scene);
+    constructor(scene: Scene, level: Level) {
+        super(scene, level);
         this.name = "Mutant";
         this.damage = 5;
         this.scoreValue = 50;
@@ -41,14 +42,14 @@ export class Mutant extends Enemy {
 
         this.createBoxCollider();
     
-
+       
         
         const { meshes, animationGroups } = await SceneLoader.ImportMeshAsync('', './models/', 'mutant2.glb');
     
-    // Set monster properties
+   
         this.mesh = meshes[1];
         this.rootMesh = meshes[0];
-
+       
         /* this.rootMesh.physicsImpostor = new PhysicsImpostor(
             this.rootMesh,
             PhysicsImpostor.BoxImpostor,
@@ -57,12 +58,13 @@ export class Mutant extends Enemy {
         );
  */
 
-        this.rootMesh.checkCollisions = true;
+        this.rootMesh!.checkCollisions = true;
         //this.rootMesh.physicsImpostor = new PhysicsImpostor(this.rootMesh, PhysicsImpostor.MeshImpostor, { mass: 100, restitution: 0.1 }, this.scene);
         this.rootMesh!.rotationQuaternion = null;
+      
         
-        this.rootMesh.position = position;
-        this.collider.position = this.rootMesh.position.clone();
+        this.rootMesh!.position = position;
+        this.collider.position = this.rootMesh!.position.clone();
         this.collider.position.y += 1;
         //this.mesh.showBoundingBox = true;
 
@@ -79,13 +81,13 @@ export class Mutant extends Enemy {
 
         // Set animation groups
         this.animationGroups = animationGroups;
-        this.death = animationGroups[1];
-        this.idle = animationGroups[2];
-        this.punch = animationGroups[3];
-        this.run = animationGroups[4];
-        this.shot = animationGroups[5];
-        this.uppercut = animationGroups[6];
-        this.walk = animationGroups[7];
+        this.death =  this.animationGroups[1];
+        this.idle =  this.animationGroups[2];
+        this.punch =  this.animationGroups[3];
+        this.run =  this.animationGroups[4];
+        this.shot =  this.animationGroups[5];
+        this.uppercut =  this.animationGroups[6];
+        this.walk =  this.animationGroups[7];
     
      
     
@@ -93,8 +95,8 @@ export class Mutant extends Enemy {
         Tags.AddTagsTo(this.mesh, "enemy");
     
         // Start animations
-        animationGroups[0].stop();
-        animationGroups[4].play(true);
+        this.animationGroups[0].stop();
+        this.animationGroups[4].play(true);
     
         // Set movement speeds
         this.runSpeed = 0.3;
@@ -218,10 +220,20 @@ runAnimation() {
     }
 }
 
+cloneAnimationGroups(sourceAnimationGroups: AnimationGroup[], targetMesh: AbstractMesh): AnimationGroup[] {
+    return sourceAnimationGroups.map(sourceGroup => {
+        const newGroup = new AnimationGroup(sourceGroup.name);
+        
+        sourceGroup.targetedAnimations.forEach(targetedAnim => {
+            const newAnim = targetedAnim.animation.clone();
+            newGroup.addTargetedAnimation(newAnim, targetMesh);
+        });
+        
+        return newGroup;
+    });
 
 
-
-
+}
 
 
 }

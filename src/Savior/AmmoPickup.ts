@@ -1,4 +1,4 @@
-import { AbstractMesh, Vector3, Scene, SceneLoader, FreeCamera, Sound } from "@babylonjs/core";
+import { AbstractMesh, Vector3, Scene, SceneLoader, FreeCamera, Sound, Mesh } from "@babylonjs/core";
 
 export class AmmoPickup {
 
@@ -6,8 +6,9 @@ export class AmmoPickup {
     scene!: Scene;
     camera!: FreeCamera; 
     pickupSound: Sound;
+    meshes: any;
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, camera: FreeCamera) {
         this.mesh = null;
         this.scene = scene;
        this.pickupSound = new Sound(
@@ -21,6 +22,8 @@ export class AmmoPickup {
             autoplay: false
         });
 
+
+        this.camera = camera;
         
     }
 
@@ -43,4 +46,17 @@ export class AmmoPickup {
             this.mesh = null;
         }
     }
+
+    checkFrustumVisibility(): void {
+        if(this.meshes) {
+       
+        this.meshes.forEach((mesh: Mesh) => {
+            if (!this.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        });
+    }
+}
 }

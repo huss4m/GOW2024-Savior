@@ -1,6 +1,7 @@
 import { AbstractMesh, Tags, Animation, AnimationGroup, Color3, FreeCamera, Material, Mesh, MeshBuilder, PBRMaterial, Ray, Scene, SceneLoader, Sound, StandardMaterial, Texture, TransformNode, Vector3, Axis } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { Player } from "./Player";
+import { Level } from "./Level";
 
 
 export class Enemy {
@@ -58,14 +59,15 @@ export class Enemy {
     static enemyCount = 0; 
     states: { DESTROYED: boolean; FOLLOWING: boolean; ATTACKING: boolean; };
     attackTimer: any;
+    level: Level;
    
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, level: Level) {
         this.scene = scene;
 
      
 
-
+        this.level = level;
         this.isSpellCasting = false;
         this.health = 100;
         this.name = "Monster";

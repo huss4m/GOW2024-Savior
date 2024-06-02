@@ -1,4 +1,4 @@
-import { Scene, SceneLoader, Mesh, HemisphericLight, CubeTexture, Engine, Vector3, MeshBuilder, StandardMaterial, Color3, Sound, PBRMaterial, Texture, CannonJSPlugin , PhysicsImpostor, PointLight, ShadowGenerator, DirectionalLight, Light, LightGizmo, GizmoManager} from "@babylonjs/core";
+import { Scene, SceneLoader, Mesh, HemisphericLight, CubeTexture, Engine, Vector3, MeshBuilder, StandardMaterial, Color3, Sound, PBRMaterial, Texture, CannonJSPlugin , PhysicsImpostor, PointLight, ShadowGenerator, DirectionalLight, Light, LightGizmo, GizmoManager, ICullable, AbstractMesh} from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { Enemy } from "./Enemy";
 import { Mutant } from "./Mutant";
@@ -13,6 +13,7 @@ import { Boss } from "./Boss";
 import { SkeletonZombie } from "./SkeletonZombie";
 import { TorchPowerup } from "./TorchPowerup";
 import { MedalPowerup } from "./MedalPowerup";
+import { Instances } from "./Instances";
 
 
 export class Level {
@@ -31,6 +32,9 @@ export class Level {
     ammopickup: AmmoPickup;
     torchPowerup: any;
     medalPowerup: MedalPowerup;
+
+    meshes: any;
+    instances!: Instances;
 
 
 
@@ -58,11 +62,13 @@ export class Level {
         //this.CreateTorch();
 
         this.weaponPickups = new WeaponPickups();
-        this.ammopickup = new AmmoPickup(this.scene);
-        this.firstaid = new FirstAidPickup(this.scene);
+        this.ammopickup = new AmmoPickup(this.scene, this.firstPersonController.camera);
+        this.firstaid = new FirstAidPickup(this.scene, this.firstPersonController.camera);
         
-        this.torchPowerup = new TorchPowerup(this.scene);
-        this.medalPowerup = new MedalPowerup(this.scene);
+        this.torchPowerup = new TorchPowerup(this.scene, this.firstPersonController.camera);
+        this.medalPowerup = new MedalPowerup(this.scene, this.firstPersonController.camera);
+
+       // this.instances = new Instances();
   
   
     }
@@ -85,9 +91,9 @@ export class Level {
           
           light.intensity = 3;
           //light.position = new Vector3(0,10,0);
-          light.shadowEnabled = true;
+    /*       light.shadowEnabled = true;
           light.shadowMinZ = 1;
-          light.shadowMaxZ = 10; 
+          light.shadowMaxZ = 10;  */
 
        //this.CreateGizmos(light);
 
@@ -144,24 +150,42 @@ export class Level {
   
       async CreateEnvironment(): Promise<void> {
          
-     const { meshes } = await SceneLoader.ImportMeshAsync(
-            "",
-             "./models/",
-             "stadetest8.glb",
-             this.scene
-         );
+        const { meshes } = await SceneLoader.ImportMeshAsync(
+                "",
+                "./models/",
+                "stadetest8.glb",
+                this.scene
+            );
 
 
-   
+    
 
-     meshes.forEach((mesh) => {
+        meshes.forEach((mesh) => {
 
        
         // Enable collisions
         //mesh.checkCollisions = true;
+        mesh.isPickable = true; 
         mesh.receiveShadows = true;
+
+
+        mesh.freezeWorldMatrix();
+        mesh.cullingStrategy = AbstractMesh.CULLINGSTRATEGY_OPTIMISTIC_INCLUSION_THEN_BSPHERE_ONLY;
+
+       // We remove non visible parts
+        if(mesh.name === "Doors"  || mesh.name === "Stairs" || mesh.name === "Gates" || 
+        mesh.name === "Entrance Steps" || mesh.name ==="End Terraces" || mesh.name === "Dividers" || mesh.name === "Doorknobs" || mesh.name === "Door Handles" 
+        || mesh.name ==="Door Frames." || mesh.name === "Ground Level"
+        || mesh.name === "Flag Pole Bases" || mesh.name === "Pressbox" || mesh.name === "Gates 02" ) {
+        mesh.isVisible = false;
+       }
+      
         
      }); 
+
+     this.meshes = meshes;
+    
+
     
       
         const ground = MeshBuilder.CreateGround( "ground",
@@ -221,10 +245,10 @@ export class Level {
     async generateEnemies(number: number): Promise<void> {
         this.waveNumber+=1;
 
-        const minX = -82; 
-        const maxX = 12;
-        const minZ = -8; 
-        const maxZ = 115; 
+        const minX = -81; 
+        const maxX = 11;
+        const minZ = -7; 
+        const maxZ = 114; 
    
 
         if(this.waveNumber  == 2) {
@@ -254,7 +278,7 @@ export class Level {
     
            
             const position = new Vector3(randomX, 0.1, randomZ);
-            const mutant = new Mutant(this.scene);
+            const mutant = new Mutant(this.scene, this);
             await mutant.CreateMonster(position);
     
             this.firstPersonController.enemies.push(mutant);
@@ -272,7 +296,7 @@ export class Level {
         
              
                 const position = new Vector3(randomX, 0.1, randomZ);
-                const warrok = new Warrok(this.scene);
+                const warrok = new Warrok(this.scene, this);
                 await warrok.CreateMonster(position);
         
                 this.firstPersonController.enemies.push(warrok);
@@ -291,7 +315,7 @@ export class Level {
         
                
                 const position = new Vector3(randomX, 0.1, randomZ);
-                const skeletonZombie = new SkeletonZombie(this.scene);
+                const skeletonZombie = new SkeletonZombie(this.scene, this);
                 await skeletonZombie.CreateMonster(position);
         
                 this.firstPersonController.enemies.push(skeletonZombie);
@@ -358,7 +382,7 @@ export class Level {
 
 
         const minY = 0.1;
-        const maxY = 0.6;
+        const maxY = 0.2;
    
 
         setInterval(() => {
@@ -426,7 +450,7 @@ export class Level {
     createHWall(position: Vector3): void {
       
         const wallWidth = 135;
-        const wallHeight = 5;
+        const wallHeight = 15;
         const wallDepth = 0.5;
         const wallPosition = position; 
 
@@ -496,5 +520,18 @@ export class Level {
             //mesh.isVisible = false;
          }); 
      }
+
+     checkFrustumVisibility(): void {
+        if(this.meshes) {
+        
+        this.meshes.forEach((mesh: Mesh) => {
+            if (!this.firstPersonController.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        });
+    }
+    }
 
 }

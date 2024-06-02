@@ -1,4 +1,4 @@
-import { AbstractMesh, Tags, Animation, AnimationGroup, Color3, FreeCamera, Material, Mesh, MeshBuilder, PBRMaterial, Ray, Scene, SceneLoader, Sound, StandardMaterial, Texture, TransformNode, Vector3, Axis } from "@babylonjs/core";
+import { AbstractMesh, Tags, Animation, AnimationGroup, Color3, FreeCamera, Material, Mesh, MeshBuilder, PBRMaterial, Ray, Scene, SceneLoader, Sound, StandardMaterial, Texture, TransformNode, Vector3, Axis, RichTypeString } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
 
@@ -7,9 +7,11 @@ export class FirstAidPickup {
     mesh: AbstractMesh | null;
     pickupSound: Sound;
     scene!: Scene;
+    meshes: any;
+    camera!: FreeCamera;
 
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, camera: FreeCamera) {
         this.mesh = null;
         this.scene = scene;
         this.pickupSound = new Sound(
@@ -22,6 +24,7 @@ export class FirstAidPickup {
                 volume: 1,
                 autoplay: false
             });
+          this.camera = camera;
     }
 
     async CreateFirstAidPickup(position: Vector3) {
@@ -33,5 +36,19 @@ export class FirstAidPickup {
         //this.mesh.checkCollisions = true;
         meshes[1].id = "firstAid";
     }
+
+
+    checkFrustumVisibility(): void {
+        if(this.meshes) {
+       
+        this.meshes.forEach((mesh: Mesh) => {
+            if (!this.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        });
+    }
+}
 
 }

@@ -1,4 +1,4 @@
-import { Scene, Engine, SceneLoader, Vector3, HemisphericLight, FreeCamera, Sound, Mesh, AbstractMesh, TransformNode, MeshBuilder, StandardMaterial, Texture, Color3, Material, Animation, Matrix, PBRMaterial, CubeTexture, Quaternion, Ray, EasingFunction, CubicEase, PhysicsImpostor, ColorGradient, Color4, Tags, CannonJSPlugin, SceneOptimizerOptions, SceneOptimizer, HardwareScalingOptimization } from "@babylonjs/core";
+import { Scene, Engine, SceneLoader, Vector3, HemisphericLight, FreeCamera, Sound, Mesh, AbstractMesh, TransformNode, MeshBuilder, StandardMaterial, Texture, Color3, Material, Animation, Matrix, PBRMaterial, CubeTexture, Quaternion, Ray, EasingFunction, CubicEase, PhysicsImpostor, ColorGradient, Color4, Tags, CannonJSPlugin, SceneOptimizerOptions, SceneOptimizer, HardwareScalingOptimization, ScenePerformancePriority } from "@babylonjs/core";
 import { AdvancedDynamicTexture, TextBlock, Button, Rectangle, Control, LinearGradient } from "@babylonjs/gui";
 
 import "@babylonjs/loaders";
@@ -81,6 +81,8 @@ export class FirstPersonController {
      
       this.level = new Level(this.engine, this);
       this.scene = this.level.scene;
+      //this.scene.blockMaterialDirtyMechanism = true;
+      
 
       this.canReload = true;
       this.isPaused = false;
@@ -146,7 +148,7 @@ export class FirstPersonController {
       this.weapon = this.pistol;
 
       this.inventory.push(this.weapon);
-
+      
 
  
 
@@ -200,7 +202,7 @@ export class FirstPersonController {
       this.weaponPickups.CreateLMGPickup(new Vector3(120,0,-75)); */
 
 
-      this.torchPowerup = new TorchPowerup(this.scene);
+      this.torchPowerup = new TorchPowerup(this.scene, this.camera);
 
       this.torchPowerup.CreateTorchPowerup(new Vector3(-30, 0, 40));
 
@@ -312,6 +314,9 @@ this.scene.onDataLoadedObservable.addOnce(() => {
        if(this.playerBox.position.y+1 > 1.56) {
         this.camera.position.y = this.playerBox.position.y+1;
        }
+
+       
+
         this.playerBox.position.z = this.camera.position.z;
         this.playerBox.position.x = this.camera.position.x;
 
@@ -330,6 +335,14 @@ this.scene.onDataLoadedObservable.addOnce(() => {
     
 
       this.engine.runRenderLoop(() => {
+
+
+
+        //this.checkMeshesInFrustum();
+
+        //this.level.checkFrustumVisibility();
+    
+   
 
         if (this.isPaused) {
             this.ui.showPauseScreen();
@@ -562,7 +575,7 @@ this.scene.onDataLoadedObservable.addOnce(() => {
              }
 
              if ((event.code === 'ShiftLeft' || event.code === 'ShiftRight') && this.isMoving) {
-                
+                event.preventDefault();
                  this.isSprinting = true;
                  if(this.player.stamina > 0) {
                      this.camera.speed = this.player.sprintSpeed;
@@ -577,12 +590,15 @@ this.scene.onDataLoadedObservable.addOnce(() => {
               
                     switch (event.code) {
                         case 'Digit1':
+                            event.preventDefault();
                             this.switchWeaponByKey(0);
                             break;
                         case 'Digit2':
+                            event.preventDefault();
                             this.switchWeaponByKey(1);
                             break;
                         case 'Digit3':
+                            event.preventDefault();
                             this.switchWeaponByKey(2);
                             break;
                         case 'Digit4':
@@ -591,6 +607,7 @@ this.scene.onDataLoadedObservable.addOnce(() => {
                             break;
 
                         case 'Digit9':
+                            event.preventDefault();
                             this.toggleGodMode();
                             break;
 
@@ -656,16 +673,19 @@ this.scene.onDataLoadedObservable.addOnce(() => {
     
 
 
-     window.addEventListener('wheel', (event) => {
+        window.addEventListener('wheel', (event) => {
+            // Check if the event target is the canvas
+            if (event.target === this.canvas) {
+                // Prevent the default scrolling behavior
+                event.preventDefault();
         
-         if (event.deltaY < 0) {
-             
-             this.cycleWeapon(1);
-         } else if (event.deltaY > 0) {
-            
-             this.cycleWeapon(-1);
-         }
-     });
+                if (event.deltaY < 0) {
+                    this.cycleWeapon(1);
+                } else if (event.deltaY > 0) {
+                    this.cycleWeapon(-1);
+                }
+            }
+        }, { passive: false }); 
  
 
        
@@ -913,5 +933,21 @@ this.scene.onDataLoadedObservable.addOnce(() => {
                 
             }
         }
+
+
+
+
+        
+    checkMeshesInFrustum(): void {
+       
+        this.scene.meshes.forEach((mesh) => {
+           
+            if (!this.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        });
+    }
 
 }

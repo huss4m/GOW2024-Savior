@@ -29,7 +29,7 @@ export class Boss extends Enemy {
     generateAddsInterval!: number;
 
     constructor(scene: Scene, player: Player, level: Level) {
-        super(scene);
+        super(scene, level);
         this.name = "Boss";
         this.level = level;
         this.player = player;
@@ -345,13 +345,14 @@ loadParticleSystem() {
 const particleSystem = new ParticleSystem("particles", 2000, this.scene);
 
 // Texture of each particle
-particleSystem.particleTexture = new Texture("./textures/particles/star_08.png", this.scene);
+particleSystem.particleTexture = new Texture("./textures/particles/spark_05.png", this.scene);
 
-// Where the particles come from
-particleSystem.emitter = this.rootMesh; // Attach to the monster
-particleSystem.minEmitBox = new Vector3(-1, 0, 0); 
-particleSystem.maxEmitBox = new Vector3(1, 0, 0); 
-particleSystem.createSphereEmitter(10); 
+
+particleSystem.emitter = this.rootMesh; 
+particleSystem.minEmitBox = new Vector3(1, 0, 1);
+particleSystem.maxEmitBox = new Vector3(1, 0, 1);   
+
+particleSystem.createSphereEmitter(9); 
 
 // Colors of all particles
 particleSystem.color1 = new Color4(0, 1, 1, 1.0);
@@ -359,34 +360,38 @@ particleSystem.color2 = new Color4(0, 1, 1, 1.0);
 particleSystem.colorDead = new Color4(0, 1, 1, 0.0);
 
 
-particleSystem.minSize = 0.5;
-particleSystem.maxSize = 1;
+particleSystem.minSize = 2;
+particleSystem.maxSize = 4;
 
 
-particleSystem.minLifeTime = 0.3;
-particleSystem.maxLifeTime = 1.5;
+particleSystem.minLifeTime = 0.2;
+particleSystem.maxLifeTime = 0.2;
+
+
+particleSystem.minInitialRotation = -Math.PI/3;
+particleSystem.maxInitialRotation = Math.PI/3;
 
 // Emission rate
-particleSystem.emitRate = 500;
+particleSystem.emitRate = 70;
 
 // Blend mode
 particleSystem.blendMode = ParticleSystem.BLENDMODE_ONEONE;
 
-// Set the gravity 
-particleSystem.gravity = new Vector3(0, -9.81, 0);
 
 
-particleSystem.direction1 = new Vector3(0, 15, 0);
-particleSystem.direction2 = new Vector3(0, 15, 0);
+
+
+/* particleSystem.direction1 = new Vector3(15, 15, 0);
+particleSystem.direction2 = new Vector3(0, 15, 15); */
 
 // Angular speed
-particleSystem.minAngularSpeed = 0;
-particleSystem.maxAngularSpeed = Math.PI;
+/* particleSystem.minAngularSpeed = 0;
+particleSystem.maxAngularSpeed = Math.PI; */
 
 // Speed
-particleSystem.minEmitPower = 1;
+/* particleSystem.minEmitPower = 1;
 particleSystem.maxEmitPower = 3;
-particleSystem.updateSpeed = 0.005;
+particleSystem.updateSpeed = 0.007; */
 
 
 this.spellParticles = particleSystem;
@@ -569,7 +574,7 @@ async generateAdds(number: number) {
         const EnemyClass = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
     
        
-        const enemy = new EnemyClass(this.scene);
+        const enemy = new EnemyClass(this.scene, this.level);
         await enemy.CreateMonster(position);
     
         // Add the enemy to the list of enemies in the first-person controller
@@ -580,9 +585,9 @@ async generateAdds(number: number) {
 
 
 startAddGeneration() {
-    const GENERATE_ADDS_INTERVAL = 45000; // 30 seconds in milliseconds
+    const GENERATE_ADDS_INTERVAL = 45000;
     this.generateAddsInterval = setInterval(() => {
-        this.generateAdds(3); // Change the number as needed
+        this.generateAdds(5); 
     }, GENERATE_ADDS_INTERVAL);
 }
 

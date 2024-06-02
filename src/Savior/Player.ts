@@ -137,6 +137,7 @@ export class Player {
         }, 6000);
 
         this.health = Math.max(0, this.health - 20);
+        this.firstPersonController.playerBox.applyImpulse(new Vector3(0,4,0), this.firstPersonController.playerBox.getAbsolutePosition());
     }
 
     decayStamina() {
@@ -180,4 +181,7 @@ export class Player {
         this.isRegenerating = true;
     }
     }
+
+
+
 }

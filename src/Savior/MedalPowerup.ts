@@ -8,12 +8,13 @@ export class MedalPowerup {
     pickupSound: Sound;
     glowLayer: GlowLayer;
     scoreValue: number;
+    meshes: any;
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, camera: FreeCamera) {
         this.mesh = null;
         this.scene = scene;
         this.scoreValue = 100;
-        
+        this.camera = camera;
         this.pickupSound = new Sound(
             "",
             "./audio/pickups/ammobox.mp3", 
@@ -24,9 +25,9 @@ export class MedalPowerup {
                 autoplay: false
             }
         );
-        // Create a glow layer and add it to the scene
+       
         this.glowLayer = new GlowLayer("glow", this.scene);
-        this.glowLayer.intensity = 2; // Adjust glow intensity as needed
+        this.glowLayer.intensity = 2; 
     }
 
     async CreateMedalPowerup(position: Vector3) {
@@ -44,6 +45,10 @@ export class MedalPowerup {
         this.mesh = meshes[0]; 
         this.mesh.scaling = new Vector3(0.3, 0.3, 0.3);
         this.mesh.position = position; 
+
+       /*  this.meshes = meshes; */
+
+
 
         
         const glowMaterial = new StandardMaterial("glowMaterial", this.scene);
@@ -69,4 +74,20 @@ export class MedalPowerup {
             this.mesh = null;
         }
     }
+
+
+    checkFrustumVisibility(): void {
+        if(this.meshes) {
+       
+        this.meshes.forEach((mesh: Mesh) => {
+            if(mesh){
+            if (!this.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        }
+        });
+    }
+}
 }

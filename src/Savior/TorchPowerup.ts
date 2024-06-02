@@ -9,7 +9,9 @@ export class TorchPowerup {
     glowLayer: GlowLayer;
     scoreValue: number;
 
-    constructor(scene: Scene) {
+    meshes: any;
+
+    constructor(scene: Scene, camera: FreeCamera) {
         this.mesh = null;
         this.scene = scene;
         this.scoreValue = 100;
@@ -23,7 +25,7 @@ export class TorchPowerup {
                 autoplay: false
             }
         );
-       
+       this.camera = camera;
         this.glowLayer = new GlowLayer("glow", this.scene);
         this.glowLayer.intensity = 1; 
     }
@@ -43,6 +45,11 @@ export class TorchPowerup {
         this.mesh = meshes[0]; 
         this.mesh.scaling = new Vector3(0.3, 0.3, 0.3);
         this.mesh.position = position; 
+
+
+        //this.meshes = meshes;
+
+  
 
       
         const glowMaterial = new StandardMaterial("glowMaterial", this.scene);
@@ -70,4 +77,20 @@ export class TorchPowerup {
             this.mesh = null;
         }
     }
+
+
+    checkFrustumVisibility(): void {
+        if(this.meshes) {
+       
+        this.meshes.forEach((mesh: Mesh) => {
+            if(mesh){
+            if (!this.camera.isInFrustum(mesh)) {
+                mesh.isVisible = false;
+            } else {
+                mesh.isVisible = true;
+            }
+        }
+        });
+    }
+}
 }

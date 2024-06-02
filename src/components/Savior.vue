@@ -13,6 +13,10 @@
 
     <footer class="footer">
       <p class="footer-text">Credits: First person weapon models by <a href="https://sketchfab.com/bumstrum" target="_blank" class="credit-link">3DMaesen (bumstrum)</a> under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="license-link">CC BY 4.0</a> (CC Attribution License).</p>
+      <p class="footer-text"> Torch model <a href="https://sketchfab.com/leondp" target="_blank" class="credit-link">Nortenko Dmytro</a> under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="license-link">CC BY 4.0</a> (CC Attribution License).</p>
+      <p class="footer-text"> Olympic medal <a href="https://sketchfab.com/AlbertoLuviano" target="_blank" class="credit-link">Alberto Luviano</a> under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="license-link">CC BY 4.0</a> (CC Attribution License).</p>
+      <p class="footer-text"> Health kit <a href="https://sketchfab.com/stefanocagnani1990" target="_blank" class="credit-link">Stefano Cagnani</a> under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" class="license-link">CC BY 4.0</a> (CC Attribution License).</p>
+      
       <p class ="footer-text">Credit to <a href="https://www.FesliyanStudios.com" target="_blank" class="credit-link">FesliyanStudios</a> for the background music </p>
     </footer>
   </div>
@@ -34,11 +38,23 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  canvas {
+ canvas {
     width: 70%;
     height: 70%;
     position: relative;
-    margin-bottom: 20px; 
+    /* margin-bottom:20px; */
+  }
+
+  .footer {
+    position: absolute bottom;  
+    margin-top: auto;
+    bottom: 0;
+    width: 100%;
+   
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5); 
+    padding: 4px;
+    
   }
 
   .banner {
@@ -71,16 +87,6 @@ export default defineComponent({
     transform: translateX(-50%);
   }
 
-  .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 6%;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin-top: 10px; 
-    padding: 10px 0; 
-  }
 
   .credit-link, .license-link {
     color: #0a4ca3; 
@@ -93,6 +99,7 @@ export default defineComponent({
   }
 
   .footer-text {
-    font-size: 12px; 
+    font-size: 10px;
+    margin: 2px 0;
   }
 </style>

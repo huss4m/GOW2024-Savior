@@ -1,5 +1,6 @@
 import { AnimationGroup, GizmoManager, PhysicsImpostor, Scene, SceneLoader, Sound, Tags, Vector3, TransformNode, MeshBuilder, StandardMaterial, Color3 } from "@babylonjs/core";
 import { Enemy } from "./Enemy";
+import { Level } from "./Level";
 
 
 export class Warrok extends Enemy {
@@ -8,8 +9,8 @@ export class Warrok extends Enemy {
     
 
 
-    constructor(scene: Scene) {
-        super(scene);
+    constructor(scene: Scene, level: Level) {
+        super(scene, level);
         this.name = "Warrok";
         this.damage = 12;
         this.scoreValue = 100;
