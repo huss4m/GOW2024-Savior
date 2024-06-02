@@ -39,8 +39,8 @@ export default defineComponent({
 
 <style scoped>
  canvas {
-    width: 70%;
-    height: 70%;
+    width: 100%;
+    height: 100%;
     position: relative;
     /* margin-bottom:20px; */
   }

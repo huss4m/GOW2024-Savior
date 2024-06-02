@@ -32,14 +32,14 @@ export class MedalPowerup {
 
     async CreateMedalPowerup(position: Vector3) {
         
-        const sphereCollider = MeshBuilder.CreateSphere("sphereCollider", {diameter: 1}, this.scene);
+        const sphereCollider = MeshBuilder.CreateSphere("sphereCollider", {diameter: 0.1}, this.scene);
         sphereCollider.isVisible = false;
         sphereCollider.visibility = 0.5;
         sphereCollider.isPickable = false;
-        sphereCollider.scaling = new Vector3(1.5, 2, 1.5); 
+        sphereCollider.scaling = new Vector3(28, 1, 28); 
         sphereCollider.position = position.clone(); 
         sphereCollider.checkCollisions = true;
-        sphereCollider.position.y += 1;
+        //sphereCollider.position.y += 1;
 
         const { meshes } = await SceneLoader.ImportMeshAsync('', './models/pickups/', 'medal.glb');
         this.mesh = meshes[0]; 

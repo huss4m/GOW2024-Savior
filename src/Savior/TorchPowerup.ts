@@ -32,13 +32,15 @@ export class TorchPowerup {
 
     async CreateTorchPowerup(position: Vector3) {
       
-        const capsuleCollider = MeshBuilder.CreateCapsule("capsuleCollider", {height: 3, radius: 0.5}, this.scene);
-        capsuleCollider.isVisible = false; 
-        capsuleCollider.visibility = 0.5;
-        capsuleCollider.isPickable = false; 
-        capsuleCollider.checkCollisions = true;
-        capsuleCollider.position = position.clone(); 
-        capsuleCollider.position.y += 2;
+        const sphereCollider = MeshBuilder.CreateSphere("sphereCollider", {diameter: 0.1}, this.scene);
+        sphereCollider.isVisible = false; 
+        sphereCollider.visibility = 0.5;
+        sphereCollider.isPickable = false; 
+        sphereCollider.checkCollisions = true;
+        sphereCollider.scaling = new Vector3(15, 1, 15); 
+
+        sphereCollider.position = position.clone(); 
+        sphereCollider.position.y += 0.1;
 
 
         const { meshes } = await SceneLoader.ImportMeshAsync('', './models/pickups/', 'torch.glb');
@@ -58,15 +60,15 @@ export class TorchPowerup {
         this.mesh.material = glowMaterial;
 
         
-        this.mesh.setParent(capsuleCollider);
+        this.mesh.setParent(sphereCollider);
 
        
-        capsuleCollider.id = "torchPowerup";
+        sphereCollider.id = "torchPowerup";
 
 
        
         setTimeout(() => {
-            capsuleCollider.dispose();
+            sphereCollider.dispose();
         }, 20000);
     }
 
