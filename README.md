@@ -9,7 +9,7 @@ BOUCHAKOUR Hussam - L3 Informatique Université d'Aix-Marseille
 # Liens:
 - [Visitez le dépôt GitHub](https://github.com/huss4m/GOW2024-Savior)
 - [Jouer en ligne](https://huss4m.github.io/GOW2024-Savior/)
-- [Vidéo Gameplay](https://www.youtube.com/watch?v=I1j9r0GtFgI)
+- [Vidéo Gameplay](https://www.youtube.com/watch?v=Zb9QIuUzldo&list=PL_egna8L4yOiSK5Ah0jsK8P9q21l923qo)
 
 ## Mode d'emploi
 
